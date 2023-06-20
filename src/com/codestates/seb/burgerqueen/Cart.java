@@ -1,6 +1,7 @@
 package com.codestates.seb.burgerqueen;
 
 import com.codestates.seb.burgerqueen.product.Product;
+import com.codestates.seb.burgerqueen.product.ProductRepository;
 import com.codestates.seb.burgerqueen.product.subproduct.BurgerSet;
 import com.codestates.seb.burgerqueen.product.subproduct.Drink;
 import com.codestates.seb.burgerqueen.product.subproduct.Hamburger;
@@ -9,6 +10,11 @@ import com.codestates.seb.burgerqueen.product.subproduct.Side;
 import java.util.Scanner;
 
 public class Cart {
+    private ProductRepository productRepository;
+
+    public Cart(ProductRepository productRepository){
+        this.productRepository = productRepository;
+    }
     private Product[] items = new Product[0];
     private Scanner scanner = new Scanner(System.in);
     public void printCart(){
@@ -66,7 +72,13 @@ public class Cart {
     public void addToCart(int productId){
         // 2.2.1
        // Product product = productId를 통해 productId를 id로 가지는 상품 찾기
-
+        /*Product product;
+        for (Product element : productRepository.getAllProducts()){
+            if (element.getId() == productId){
+                product = element;
+            }
+        }*/
+        Product product = productRepository.findById(productId);
         // 2.2.2
         //상품 옵션 설정 chooseOption()
 
