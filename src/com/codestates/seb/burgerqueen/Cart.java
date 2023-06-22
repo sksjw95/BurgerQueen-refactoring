@@ -115,13 +115,13 @@ public class Cart {
     private BurgerSet composeSet(Hamburger hamburger){
         System.out.println("사이드를 골라주세요");
 
-            menu.printSides();
+            menu.printSides(false); //추가
                 String sideId = scanner.nextLine();
                 Side side = (Side) productRepository.findById(Integer.parseInt(sideId));
                 chooseOption(side);
 
         System.out.println("음료를 골라주세요");
-        menu.printDrinks();
+        menu.printDrinks(false); //추가
 
         String drinkId = scanner.nextLine();
         Drink drink = (Drink)productRepository.findById(Integer.parseInt(drinkId));
