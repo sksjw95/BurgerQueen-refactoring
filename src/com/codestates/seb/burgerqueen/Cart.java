@@ -11,9 +11,12 @@ import java.util.Scanner;
 
 public class Cart {
     private ProductRepository productRepository;
+    private Menu menu;
 
-    public Cart(ProductRepository productRepository){
+    public Cart(ProductRepository productRepository, Menu menu){
+
         this.productRepository = productRepository;
+        this.menu = menu;
     }
     private Product[] items = new Product[0];
     private Scanner scanner = new Scanner(System.in);
@@ -70,25 +73,65 @@ public class Cart {
         return totalPrice;
     }
     public void addToCart(int productId){
-        // 2.2.1
-       // Product product = productId를 통해 productId를 id로 가지는 상품 찾기
-        /*Product product;
-        for (Product element : productRepository.getAllProducts()){
-            if (element.getId() == productId){
-                product = element;
-            }
-        }*/
+
         Product product = productRepository.findById(productId);
-        // 2.2.2
-        //상품 옵션 설정 chooseOption()
+        chooseOption(product);
+        if (product instanceof Hamburger){
+            Hamburger hamburger = (Hamburger) product;
+            if (hamburger.isBurgerSet()) product = composeSet(hamburger);
+        }
 
-        //2.2.3
-        // if(product가 Hamburger의 인스턴스이고, isBurgerSet이 true라면){
-        // product = 세트구성 composeSet();}
+        Product[] newItems = new Product[items.length + 1];
+        System.arraycopy(items, 0, newItems, 0, items.length);
+        newItems[newItems.length -1] = product;
+        items = newItems;
+        System.out.printf("[📢] %s를(을) 장바구니에 담았습니다.\n", product.getName());
+    }
+    private void chooseOption(Product product){
+        String input;
+        if(product instanceof Hamburger){
+            System.out.printf("단품으로 주문하시겠어요? (1)_단품(%d원) (2)_세트(%d원)\n",
+                    product.getPrice(),((Hamburger) product).getBurgerSetPrice());
+                input = scanner.nextLine();
+                    if(input.equals("2")){
+                        ((Hamburger)product).setIsBurgerSet(true);
+                    }
 
-        // 2.2.4
-        // items에 product 추가
-            // "[📣] XXXX를(을) 장바구니에 담았습니다." 출력
+        }
+        else if (product instanceof Side){
+            System.out.println("케첩은 몇 개가 필요하신가요?");
+                input = scanner.nextLine();
+            ((Side) product).setKetchup(Integer.parseInt(input));
+        }
+
+        else if (product instanceof Drink){
+            System.out.println("빨대가 필요하신가요? (1)_예 (2)_아니요");
+            input = scanner.nextLine();
+                    if (input.equals("2")){
+                        ((Drink) product).setHasStraw(false);
+                    }
+        }
+    }
+    private BurgerSet composeSet(Hamburger hamburger){
+        System.out.println("사이드를 골라주세요");
+
+            menu.printSides();
+                String sideId = scanner.nextLine();
+                Side side = (Side) productRepository.findById(Integer.parseInt(sideId));
+                chooseOption(side);
+
+        System.out.println("음료를 골라주세요");
+        menu.printDrinks();
+
+        String drinkId = scanner.nextLine();
+        Drink drink = (Drink)productRepository.findById(Integer.parseInt(drinkId));
+        chooseOption(drink);
+
+        String name = hamburger.getName()+"세트";
+        int price = hamburger.getBurgerSetPrice();
+        int kcal = hamburger.getKcal()+ side.getKcal()+drink.getKcal();
+
+        return new BurgerSet(name,price,kcal,hamburger,side,drink);
     }
 
 }

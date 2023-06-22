@@ -28,7 +28,7 @@ public class Menu {
         System.out.println("[📢]메뉴를 선택해주세요 :");
     }
 
-    private void printDrinks() {
+    protected void printDrinks() {
         System.out.println("🍹 음료");
         for (Product product : products){
             if (product instanceof Drink){
@@ -38,7 +38,7 @@ public class Menu {
         System.out.println();
     }
 
-    private void printSides() {
+    protected void printSides() {
         System.out.println("🍟 사이드");
         for (Product product : products){
             if (product instanceof Side){
