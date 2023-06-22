@@ -25,9 +25,9 @@ public class Cart {
         System.out.println("-".repeat(60));
 
         // 여기에 장바구니 상품들을 옵션 정보와 함께 출력
-
+        printCartItemDetails(); // 내가 임의 수정
         System.out.println("-".repeat(60));
-        //System.out.printf("합계 : %d원\n", 금액 합계);
+        System.out.printf("합계 : %d원\n", calculateTotalPrice());
 
         System.out.println("이전으로 돌아가려면 엔터를 누르세요.");
         scanner.nextLine();
@@ -51,9 +51,10 @@ public class Cart {
                     product.getPrice());
         }
           else if (product instanceof Side){
-            System.out.printf(" %-8s %6d원 (케첩 %d원\n",
+            System.out.printf(" %-8s %6d원 (케첩 %d개)\n",
                     product.getName(),
-                    product.getPrice()
+                    product.getPrice(),
+                    ((Side)product).getKetchup()
             );
         }
             else if (product instanceof Drink){
