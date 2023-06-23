@@ -12,7 +12,8 @@ public class OrderApp {
         ProductRepository productRepository = new ProductRepository();
         Product[] products = productRepository.getAllProducts();
         Menu menu = new Menu(products);
-        Cart cart = new Cart(productRepository, menu); //추가
+        Cart cart = new Cart(productRepository, menu);
+        Order order = new Order(cart); //추가
         System.out.println("🍔 BurgerQueen Order Service");
 
         while (true) {
@@ -20,7 +21,7 @@ public class OrderApp {
             String input = scanner.nextLine();
 //
             if (input.equals("+")) {
-//                주문 내역 출력
+               order.makeOrder();// 주문 내역 출력
                 break;
             } else {
                 int menuNumber = Integer.parseInt(input);
