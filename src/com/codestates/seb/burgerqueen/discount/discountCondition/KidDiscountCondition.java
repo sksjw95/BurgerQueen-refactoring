@@ -1,12 +1,17 @@
 package com.codestates.seb.burgerqueen.discount.discountCondition;
 
+import com.codestates.seb.burgerqueen.discount.discountPolicy.DiscountPolicy;
 import com.codestates.seb.burgerqueen.discount.discountPolicy.FixedAmountDiscountPolicy;
 
 import java.util.Scanner;
 
-public class KidDiscountCondition {
+public class KidDiscountCondition implements DiscountCondition {
     private boolean isSatisfied ;
-    private FixedAmountDiscountPolicy fixedAmountDiscountPolicy = new FixedAmountDiscountPolicy(500);
+   // private FixedAmountDiscountPolicy fixedAmountDiscountPolicy = new FixedAmountDiscountPolicy(500);
+    private DiscountPolicy discountPolicy;
+    public KidDiscountCondition(DiscountPolicy discountPolicy){
+        this.discountPolicy = discountPolicy;
+    }
     public boolean isSatisfied(){
         return  isSatisfied;
     }
@@ -22,6 +27,6 @@ public class KidDiscountCondition {
         setSatisfied(input < 20);
     }
     public int applyDiscount(int price){
-        return fixedAmountDiscountPolicy.calculateDiscountedPrice(price);
+        return discountPolicy.calculateDiscountedPrice(price);
     }
 }

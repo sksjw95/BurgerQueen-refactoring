@@ -2,6 +2,7 @@ package com.codestates.seb.burgerqueen;
 
 import com.codestates.seb.burgerqueen.discount.discountCondition.CozDiscountCondition;
 import com.codestates.seb.burgerqueen.discount.discountCondition.KidDiscountCondition;
+import com.codestates.seb.burgerqueen.discount.discountPolicy.FixedRateDiscountPolicy;
 import com.codestates.seb.burgerqueen.product.ProductRepository;
 
 public class Order {
@@ -12,8 +13,8 @@ public class Order {
     }
     public void makeOrder(){
         // 여기부터
-        CozDiscountCondition cozDiscountCondition = new CozDiscountCondition();
-        KidDiscountCondition kidDiscountCondition = new KidDiscountCondition();
+        CozDiscountCondition cozDiscountCondition = new CozDiscountCondition(new FixedRateDiscountPolicy(10));
+        KidDiscountCondition kidDiscountCondition = new KidDiscountCondition(new FixedRateDiscountPolicy(500));
 
         cozDiscountCondition.checkDiscountCondition();
         kidDiscountCondition.checkDiscountCondition();
