@@ -1,5 +1,6 @@
 package com.codestates.seb.burgerqueen;
 
+import com.codestates.seb.burgerqueen.discount.Discount;
 import com.codestates.seb.burgerqueen.discount.discountCondition.CozDiscountCondition;
 import com.codestates.seb.burgerqueen.discount.discountCondition.DiscountCondition;
 import com.codestates.seb.burgerqueen.discount.discountCondition.KidDiscountCondition;
@@ -8,11 +9,13 @@ import com.codestates.seb.burgerqueen.product.ProductRepository;
 
 public class Order {
     private Cart cart;
-    private DiscountCondition[] discountConditions;
+   // private DiscountCondition[] discountConditions;
+    private Discount discount;
 
-    public Order(Cart cart, DiscountCondition[] discountConditions) {
+    public Order(Cart cart, /*/DiscountCondition[] discountConditions*/Discount discount) {
         this.cart = cart;
-        this.discountConditions = discountConditions;
+        this.discount = discount;
+        //this.discountConditions = discountConditions;
     }
     public void makeOrder(){
         // 여기부터
@@ -35,13 +38,13 @@ public class Order {
         }
         // 여기까지 추가 - 리팩토링전 */
         int totalPrice = cart.calculateTotalPrice();
-        int finalPrice = totalPrice;
-        for (DiscountCondition discountCondition : discountConditions){
+        int finalPrice = discount.discount(totalPrice);
+       /* for (DiscountCondition discountCondition : discountConditions){
             discountCondition.checkDiscountCondition();
             if(discountCondition.isSatisfied()){
                 finalPrice = discountCondition.applyDiscount(finalPrice);
             }
-        }
+        }*/
 
         System.out.println("[📢] 주문이 완료되었습니다.");
         System.out.println("[📢] 주문 내역은 다음과 같습니다.");
